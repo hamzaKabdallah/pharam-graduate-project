@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty } from "class-validator";
+import { Gender } from "src/enums/genders.enum";
 
 export class RegisterDto {
     @IsEmail()
@@ -6,11 +7,20 @@ export class RegisterDto {
     email: string;
 
     @IsNotEmpty()
-    name: string;
+    username: string;
 
     @IsNotEmpty()
     password: string;
 
     @IsNotEmpty()
-    phone: string;
+    phone_number: string;
+
+    @IsNotEmpty()
+    country: string;
+
+    @IsNotEmpty()
+    street: string;
+
+    @IsNotEmpty()
+    gender: Gender.FEMALE | Gender.MALE;
 }
