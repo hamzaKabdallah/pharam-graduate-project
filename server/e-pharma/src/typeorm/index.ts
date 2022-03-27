@@ -1,4 +1,4 @@
-import { User } from "./User";
+import { Patients } from "./Patient";
 
-const entities = [User];
+const entities = [Patients];
 export default entities;

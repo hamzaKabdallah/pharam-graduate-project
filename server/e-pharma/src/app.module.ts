@@ -4,16 +4,16 @@ import { AppService } from './app.service';
 import { DoctorModule } from './doctor/doctor.module';
 import { PharmacistModule } from './pharmacist/pharmacist.module';
 import { AdminModule } from './admin/admin.module';
-import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm'
 import entities from './typeorm';
+import { PatientModule } from './patient/patients.module';
 
 const imports = [
   DoctorModule,
   PharmacistModule,
   AdminModule,
-  UserModule,
+  PatientModule,
   AuthModule,
   TypeOrmModule.forRoot({
     type: 'mysql',

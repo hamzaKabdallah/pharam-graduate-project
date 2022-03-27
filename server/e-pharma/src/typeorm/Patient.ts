@@ -1,7 +1,8 @@
+import { Gender } from "src/enums/genders.enum";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class User {
+export class Patients {
 
     @PrimaryGeneratedColumn({
         type: 'bigint'
@@ -22,7 +23,7 @@ export class User {
     @Column({
         nullable: true,
     })
-    mobile: string;
+    phone_number: string;
 
     @Column({
         nullable: false,
@@ -31,26 +32,17 @@ export class User {
 
     @Column({
         nullable: false,
-        default: false
     })
-    isAdmin: boolean;
+    street: string;
 
     @Column({
         nullable: false,
-        default: false
     })
-    isDoctor: boolean;
+    country: string;
+
 
     @Column({
-        nullable: false,
-        default: false
+        type: 'char'
     })
-    isPharmacist: boolean;
-
-    @Column({
-        nullable: false,
-        default: false
-    })
-    isUser: boolean;
-
+    gender: Gender.FEMALE | Gender.MALE;
 }

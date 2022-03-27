@@ -1,6 +1,6 @@
 import { Body, Controller, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { LoginDto } from 'src/classes/loginDto';
-import { CreateUserRegDto } from 'src/user/dtos/create-user-reg.dto';
+import { CreatePatientsRegDto } from 'src/patient/dtos/create-patients-reg.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -13,7 +13,7 @@ export class AuthController {
 
     @Post('reg')
     @UsePipes(ValidationPipe)
-    register(@Body() createRegAdminDto: CreateUserRegDto) {
+    register(@Body() createRegAdminDto: CreatePatientsRegDto) {
 
     }
 
