@@ -1,7 +1,8 @@
+import { IUserAuthData } from "src/interfaces/login.interface";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Pharmacist {
+export class Pharmacist implements IUserAuthData{
 
     @PrimaryGeneratedColumn({
         type: 'bigint'

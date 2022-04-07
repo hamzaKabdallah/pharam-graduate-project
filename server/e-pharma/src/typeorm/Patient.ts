@@ -1,8 +1,9 @@
 import { Gender } from "src/enums/genders.enum";
+import { IUserAuthData } from "src/interfaces/login.interface";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Patients {
+export class Patients implements IUserAuthData {
 
     @PrimaryGeneratedColumn({
         type: 'bigint'

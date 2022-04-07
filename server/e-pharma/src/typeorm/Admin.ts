@@ -1,7 +1,8 @@
+import { IUserAuthData } from "src/interfaces/login.interface";
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
-export class Admin {
+export class Admin implements IUserAuthData {
    
     @PrimaryGeneratedColumn()
     _id: number;

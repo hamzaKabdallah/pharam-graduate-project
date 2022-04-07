@@ -1,38 +1,45 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { RegisterDto } from 'src/auth/dtos/registerDto';
-import { Patients as PatientsEntity } from 'src/typeorm/Patient';
-import { Repository } from 'typeorm';
-
-import * as bcrypt from 'bcrypt';
+import { Injectable } from '@nestjs/common';
+import { AuthPatientsService } from '../patients/patients.service';
+import * as bcrypt from 'bcrypt'
+import { AuthDoctorService } from '../doctor/doctor.service';
+import { AuthPharmacistService } from '../pharmacist/pharmacist.service';
+import { AuthAdminService } from '../admin/admin.service';
+import { UserTypes } from 'src/enums/user-types.enum';
 
 @Injectable()
 export class AuthService {
+    /**
+     *
+     */
+    constructor(
+        private authDoctorService: AuthDoctorService,
+        private authPatientsService: AuthPatientsService,
+        private authPharmacistService: AuthPharmacistService,
+        private authAdminService: AuthAdminService
+    ) { }
 
-    constructor(@InjectRepository(PatientsEntity)
-    private userRepo: Repository<PatientsEntity>) {
+    async validateUser(email: string, password: string, userType: string) {
 
-    }
+        let userDB;
+        switch (userType) {
+            case UserTypes.ADMIN:  userDB = await this.authAdminService.getUserByEmail(email); break;
+            case UserTypes.DOCTOR:  userDB = await this.authDoctorService.getUserByEmail(email); break;
+            case UserTypes.PATIENT: userDB = await this.authPatientsService.getUserByEmail(email); break;
+            case UserTypes.PHARMACIST:  userDB = await this.authPharmacistService.getUserByEmail(email); break;
 
-    async createUser(user: RegisterDto) {
-        const prevUser = await this.userRepo.find({
-            email: user.email
-        });
-        
-        if (prevUser.length > 0) {
-            throw new HttpException('user already exist', HttpStatus.CREATED);
         }
 
-        const saltOrRounds = 10;
-        const hash = await bcrypt.hash(user.password, saltOrRounds);
-        user.password = hash;
+        // const userDB = await this.authPatientsService.getUserByEmail(email);
+        if (!userDB) {
+            return null;
+        }
 
-        return this.userRepo.save(user)
-            .then(value => {
-                delete value.password;
+        const bcryptPass = await bcrypt.compare(password, userDB.password);
+        if (userDB && bcryptPass) {
+            return userDB;
+        }
 
-                return value;
-            }
-            ).catch(error => { throw new HttpException('error while save user', HttpStatus.INTERNAL_SERVER_ERROR) })
+        return null;
     }
 }
+
